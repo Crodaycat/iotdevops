@@ -11,7 +11,9 @@ steps:
     entrypoint: bash
     dir: .
     args:
-      - gsutil mv /workspace/.pio/build/esp32/firmware.bin /workspace/.pio/build/esp32/firmware_esp32.bin
+      - '-c'
+      - |
+        gsutil mv /workspace/.pio/build/esp32/firmware.bin /workspace/.pio/build/esp32/firmware_esp32.bin
 artifacts:
   objects:
     location: 'gs://$PROJECT_ID-firmwares/$TAG_NAME'
