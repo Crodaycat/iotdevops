@@ -12,4 +12,3 @@ artifacts:
     location: 'gs://$PROJECT_ID-firmwares/$TAG_NAME'
     paths:
       - /workspace/.pio/build/esp32/firmware_esp32.bin
-      - /workspace/.pio/build/esp8266/firmware_esp8266.bin
