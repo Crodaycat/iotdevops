@@ -7,7 +7,7 @@ steps:
         pip install --upgrade platformio
         pio run
     dir: .
-  - name: rename_file
+  - name: 'gcr.io/cloud-builders/gsutil'
     entrypoint: bash
     dir: .
     args:
