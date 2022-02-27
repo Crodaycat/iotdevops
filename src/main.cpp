@@ -1,4 +1,4 @@
-#include <PIWiFI.h>
+#include <PIWiFi.h>
 #include <PIMQTT.h>
 #include <PICurtains.h>
 #include <PIOTA.h>

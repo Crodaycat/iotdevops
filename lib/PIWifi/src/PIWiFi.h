@@ -1,5 +1,5 @@
-#ifndef PIWIFI_H
-#define PIWIFI_H
+#ifndef PI_WIFI_H
+#define PI_WIFI_H
 #include <Arduino.h>
 #include <PIWiFiState.h>
 
