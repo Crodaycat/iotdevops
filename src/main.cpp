@@ -3,6 +3,7 @@
 #include <PIWiFI.h>
 #include <PIMQTT.h>
 #include <PICurtains.h>
+#include <PIOTA.h>
 
 char *wifiSSID = "CLARO_WIFI1F5";
 char *wifiPassword = "CLAROI743";
@@ -13,6 +14,7 @@ char *mqttClientID = "CurtainsClient";
 PIWiFi *wiFiController;
 PIMQTT *mqttController;
 PICurtains *curtainsManager;
+PIOTA *otaManager;
 
 void callback(char *topic, byte *payload, unsigned int length)
 {
@@ -40,10 +42,13 @@ void setup()
   curtainsManager = new PICurtains();
   mqttController = new PIMQTT(mqttServerIP, mqttClientID, mqttPort);
   mqttController->_mqttClient->setCallback(callback);
+
+  otaManager = new PIOTA();
 }
 
 void loop()
 {
   wiFiController->loop();
   mqttController->loop();
+  otaManager->loop();
 }
