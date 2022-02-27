@@ -7,11 +7,11 @@ const BQ_DATASET = 'ota'
 const BQ_TABLE = 'firmwares'
 const TABLE_SCHEMA =
   'id:string, eventType: string, bucket:string, version:string, fullname:string, filename:string, variant:string, createdAt:timestamp'
-const projectId = process.env.GCLOUD_PROJECT
+const projectId = process.env.GCP_PROJECT
 
 const bqClient = new BigQuery({ projectId })
 const storage = new Storage()
-const bucket = storage.bucket(`${projectId}_firmwares`)
+const bucket = storage.bucket(`${projectId}-firmwares`)
 
 async function insertIntoBigquery(data) {
   const [datasets] = await bqClient.getDatasets()
@@ -98,21 +98,31 @@ exports.getDownloadUrl = async (req, res) => {
           version,
           createdAt
         FROM \`${projectId}.${BQ_DATASET}.${BQ_TABLE}\`
-        where variant = @variant
-        order by createdAt desc
-        limit 1      
+        WHERE variant = @variant
+        ORDER BY createdAt DESC
+        LIMIT 1      
       `,
       params: {
         variant,
       },
+      location: 'US',
     }
 
-    const [rows] = await bqClient.dataset(BQ_DATASET).table(BQ_TABLE).query(queryParams)
+    console.log('queryParams', queryParams)
+
+    const [job] = await bqClient.createQueryJob(queryParams)
+    console.log(`Job ${job.id} started.`)
+
+    const bqResponse = await job.getQueryResults()
+
+    const [rows] = bqResponse
+
     if (rows.length > 0) {
       const firmware = rows[0]
 
       // latest > current
       const needsUpdate = semver.gt(firmware.version, version)
+      console.log('needsUpdate', needsUpdate)
       if (needsUpdate) {
         const url = await getPublicUrl(firmware.fullname)
         console.log('Sending url', url)
