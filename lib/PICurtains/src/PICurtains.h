@@ -1,17 +1,18 @@
 #ifndef PI_CURTAINS_H
 #define PI_CURTAINS_H
 #include <Arduino.h>
-#include <PIMQTT.h>
+#include <ESP32Servo.h>
 
+#include <PIMQTT.h>
 class PICurtains : public PIMQTTHandler
 {
 private:
   int _waitTime = 500;
-  unsigned long _lastInteraction;
+  int _pin;
+  Servo *_servo;
 
 public:
-  PICurtains();
-  PICurtains(int waitTime);
+  PICurtains(int pin, int waitTime);
 
   void handle(String action);
 };

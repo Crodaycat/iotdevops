@@ -1,5 +1,3 @@
-// #include <ESP32Servo.h>
-
 #include <PIWiFI.h>
 #include <PIMQTT.h>
 #include <PICurtains.h>
@@ -18,10 +16,7 @@ PIOTA *otaManager;
 
 void callback(char *topic, byte *payload, unsigned int length)
 {
-  Serial.print("Message arrived [");
-  Serial.print(topic);
-  Serial.print("]");
-  Serial.println();
+  Serial.println("Message arrived [" + String(topic) + "]");
 
   String message;
 
@@ -31,19 +26,29 @@ void callback(char *topic, byte *payload, unsigned int length)
   }
 
   Serial.println(message);
-  curtainsManager->handle(message);
+
+  if (String(topic) == "gym/main/curtains")
+  {
+    curtainsManager->handle(message);
+  }
 }
 
 void setup()
 {
   Serial.begin(115200);
 
+  ESP32PWM::allocateTimer(0);
+  ESP32PWM::allocateTimer(1);
+  ESP32PWM::allocateTimer(2);
+  ESP32PWM::allocateTimer(3);
+
   wiFiController = new PIWiFi(wifiSSID, wifiPassword, 500);
-  curtainsManager = new PICurtains();
   mqttController = new PIMQTT(mqttServerIP, mqttClientID, mqttPort);
   mqttController->_mqttClient->setCallback(callback);
 
   otaManager = new PIOTA();
+
+  curtainsManager = new PICurtains(17, 1000);
 }
 
 void loop()
