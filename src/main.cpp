@@ -11,8 +11,8 @@ char *mqttClientID = "CurtainsClient";
 
 PIWiFi *wiFiController;
 PIMQTT *mqttController;
-PICurtains *curtainsManager;
 PIOTA *otaManager;
+PICurtains *curtainsManager;
 
 void callback(char *topic, byte *payload, unsigned int length)
 {

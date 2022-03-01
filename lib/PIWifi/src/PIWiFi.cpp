@@ -26,11 +26,6 @@ void PIWiFi::setUpWiFi()
   WiFi.mode(WIFI_STA);
 }
 
-void PIWiFi::setIsConnecting(boolean isConnecting)
-{
-  _isConnecting = isConnecting;
-}
-
 void PIWiFi::loop()
 {
   unsigned long timePass = millis() - _lastInteraction;
