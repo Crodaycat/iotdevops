@@ -27,15 +27,32 @@ void callback(char *topic, byte *payload, unsigned int length)
 
   Serial.println(message);
 
-  if (String(topic) == "gym/main/curtains")
+  const stringTopic = String(topic);
+
+  if (stringTopic == "gym/main/curtains")
   {
     curtainsManager->handle(message);
+  }
+
+  if (stringTopic == "LED")
+  {
+    if (message == "on")
+    {
+      digitalWrite(LED_BUILTIN, HIGH)
+    }
+
+    if (message == "off")
+    {
+      digitalWrite(LED_BUILTIN, LOW)
+    }
   }
 }
 
 void setup()
 {
   Serial.begin(115200);
+
+  pinMode(LED_BUILTIN, OUTPUT);
 
   ESP32PWM::allocateTimer(0);
   ESP32PWM::allocateTimer(1);
