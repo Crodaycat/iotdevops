@@ -55,6 +55,7 @@ void PIMQTT::loop()
       Serial.println("connected");
 
       _mqttClient->subscribe("gym/main/curtains");
+      _mqttClient->subscribe("LED");
     }
     else
     {
