@@ -27,7 +27,7 @@ void callback(char *topic, byte *payload, unsigned int length)
 
   Serial.println(message);
 
-  const stringTopic = String(topic);
+  String stringTopic = String(topic);
 
   if (stringTopic == "gym/main/curtains")
   {
@@ -38,12 +38,12 @@ void callback(char *topic, byte *payload, unsigned int length)
   {
     if (message == "on")
     {
-      digitalWrite(LED_BUILTIN, HIGH)
+      digitalWrite(LED_BUILTIN, HIGH);
     }
 
     if (message == "off")
     {
-      digitalWrite(LED_BUILTIN, LOW)
+      digitalWrite(LED_BUILTIN, LOW);
     }
   }
 }
